@@ -123,7 +123,7 @@ func mrReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 }
 func main() {
 	mtn := martini.Classic()
-	db, err := sql.Open("mysql", "root:woai840511~@tcp(localhost:3306)/world?charset=utf8")
+	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/receipt?charset=utf8")
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}

@@ -139,3 +139,48 @@ func main() {
 	http.ListenAndServe(":10086", mtn)
 	// mtn.Run()
 }
+
+// 	CREATE TABLE tmp_mo_receipt (
+// 		id int(11) NOT NULL AUTO_INCREMENT,
+// 		spid varchar(6) NOT NULL DEFAULT '',
+// 		srctermid varchar(32) NOT NULL DEFAULT '',
+// 		citycode varchar(4) NOT NULL DEFAULT '',
+// 		desttermid varchar(30) NOT NULL DEFAULT '',
+// 		linkid varchar(30) NOT NULL DEFAULT '',
+// 		cmd varchar(150) NOT NULL DEFAULT '',
+// 		fee varchar(10) NOT NULL DEFAULT '',
+// 		serviceid varchar(18) NOT NULL DEFAULT '',
+// 		status varchar(50) NOT NULL DEFAULT '',
+// 		time varchar (20) NOT NULL DEFAULT '',
+// 		logtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+// 		PRIMARY KEY (id),
+// 		UNIQUE KEY 	cmd (cmd)
+// 	)ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8
+
+// create index msgid on mo_receipt (srctermid, linkid)
+
+// alter table mo_receipt Add column status varchar(50) NOT NULL DEFAULT '' AFTER serviceid
+
+// DELIMITER //
+// CREATE TRIGGER t_afterupdate_on_mo_receipt
+// AFTER update ON mo_receipt
+// FOR EACH ROW
+// BEGIN
+//      insert into tmp_mo_receipt values(NEW.id, NEW.spid, NEW.srctermid, NEW.citycode, NEW.desttermid, NEW.linkid, NEW.cmd, NEW.fee, NEW.serviceid, NEW.status, NEW.time, NEW.logtime);
+// END//
+
+// UPDATE mo_receipt a, mr_receipt b SET a.status = b.status WHERE a.srctermid = b.srctermid AND a.linkid = b.linkid
+
+// DELIMITER //
+// CREATE TRIGGER t_afterinsert_on_mr_receipt
+// AFTER insert ON mr_receipt
+// FOR EACH ROW
+// BEGIN
+// 	 update mo_receipt SET status = NEW.status WHERE srctermid = NEW.srctermid AND linkid = NEW.linkid;
+// END//
+
+// DELIMITER ;
+
+// //接口文档
+
+// ?feetermid=计费手机号伪码&status=状态报告&linkid=linkid&desttermid=用户手机号伪码&cmdword=业务代码&sendtime=计费时间&msgid=消息id

@@ -79,11 +79,11 @@ func moReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 	if err != nil {
 		panic(err.Error())
 	}
-	rowId, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-	log.Printf("<%d> INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	// rowId, err := res.LastInsertId()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	log.Printf("<> INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
 
 	return http.StatusOK, "resultCode=0"
 }
@@ -114,17 +114,17 @@ func mrReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 	if err != nil {
 		panic(err.Error())
 	}
-	rowId, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-	log.Printf("<%d> INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES('%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, status, cmd)
+	// rowId, err := res.LastInsertId()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	log.Printf("<> INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES('%s', '%s', '%s', '%s', '%s')", spid, srctermid, linkid, status, cmd)
 	return http.StatusOK, "resultCode=0"
 }
 func main() {
 	mtn := martini.Classic()
 	db, err := sql.Open("mysql", "root:@tcp(localhost:3306)/receipt?charset=utf8")
-	db.SetMaxOpenConns(20)
+	db.SetMaxOpenConns(10)
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}

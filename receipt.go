@@ -75,15 +75,18 @@ func moReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 		panic(err.Error())
 	}
 	defer stmtIn.Close()
-	res, err := stmtIn.Exec(spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	_, err = stmtIn.Exec(spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	// res, err := stmtIn.Exec(spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+
 	if err != nil {
 		panic(err.Error())
 	}
-	rowId, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-	log.Printf("<%d> INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	// rowId, err := res.LastInsertId()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// log.Printf("<%d> INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	log.Printf("<> INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
 
 	return http.StatusOK, "resultCode=0"
 }
@@ -110,15 +113,18 @@ func mrReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 		panic(err.Error())
 	}
 	defer stmtIn.Close()
-	res, err := stmtIn.Exec(spid, srctermid, linkid, status, cmd)
+	// res, err := stmtIn.Exec(spid, srctermid, linkid, status, cmd)
+	_, err = stmtIn.Exec(spid, srctermid, linkid, status, cmd)
+
 	if err != nil {
 		panic(err.Error())
 	}
-	rowId, err := res.LastInsertId()
-	if err != nil {
-		panic(err.Error())
-	}
-	log.Printf("<%d> INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES('%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, status, cmd)
+	// rowId, err := res.LastInsertId()
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+	// log.Printf("<%d> INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES('%s', '%s', '%s', '%s', '%s')", rowId, spid, srctermid, linkid, status, cmd)
+	log.Printf("<> INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES('%s', '%s', '%s', '%s', '%s')", spid, srctermid, linkid, status, cmd)
 	return http.StatusOK, "resultCode=0"
 }
 func main() {

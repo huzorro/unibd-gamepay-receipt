@@ -75,7 +75,7 @@ func moReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 		panic(err.Error())
 	}
 	defer stmtIn.Close()
-	res, err := stmtIn.Exec(spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
+	_, err := stmtIn.Exec(spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -110,7 +110,7 @@ func mrReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 		panic(err.Error())
 	}
 	defer stmtIn.Close()
-	res, err := stmtIn.Exec(spid, srctermid, linkid, status, cmd)
+	_, err := stmtIn.Exec(spid, srctermid, linkid, status, cmd)
 	if err != nil {
 		panic(err.Error())
 	}

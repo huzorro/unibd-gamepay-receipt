@@ -62,11 +62,11 @@ func moReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 	// 	cmd varchar(150) NOT NULL DEFAULT '',
 	// 	fee varchar(10) NOT NULL DEFAULT '',
 	// 	serviceid varchar(18) NOT NULL DEFAULT '',
-	// 		status varchar(50) NOT NULL DEFAULT '',
+	// 	status varchar(50) NOT NULL DEFAULT '',
 	// 	time varchar (20) NOT NULL DEFAULT '',
 	// 	logtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	// 	PRIMARY KEY (id),
-	// 	UNIQUE KEY 	cmd (cmd)
+	// 	UNIQUE KEY `src_linkid` (`srctermid`,`linkid`)
 	// )ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8
 	stmtIn, err := db.Prepare("INSERT INTO mo_receipt (spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ")
 	if err != nil {
@@ -104,7 +104,7 @@ func mrReceipt(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logg
 	// 	status varchar (30) NOT NULL DEFAULT '',
 	// 	logtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	// 	PRIMARY KEY (id),
-	// 	UNIQUE KEY 	cmd (cmd)
+	// 	UNIQUE KEY `src_linkid` (`srctermid`,`linkid`)
 	// )ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8
 	stmtIn, err := db.Prepare("INSERT INTO mr_receipt (spid, srctermid, linkid, status, cmd) VALUES(?, ?, ?, ?, ?) ")
 	if err != nil {
@@ -159,12 +159,8 @@ func main() {
 // 		time varchar (20) NOT NULL DEFAULT '',
 // 		logtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 // 		PRIMARY KEY (id),
-// 		UNIQUE KEY 	cmd (cmd)
+// 		UNIQUE KEY `src_linkid` (`srctermid`,`linkid`)
 // 	)ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8
-
-// create index msgid on mo_receipt (srctermid, linkid)
-
-// alter table mo_receipt Add column status varchar(50) NOT NULL DEFAULT '' AFTER serviceid
 
 // DELIMITER //
 // CREATE TRIGGER t_afterupdate_on_mo_receipt

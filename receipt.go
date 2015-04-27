@@ -17,6 +17,7 @@ func moReview(r *http.Request, w http.ResponseWriter, db *sql.DB, log *log.Logge
 	stmtOut, err := db.Prepare("SELECT spid, srctermid, linkid, citycode, cmd, desttermid, fee, serviceid, time FROM mo_receipt LIMIT ?")
 	defer stmtOut.Close()
 	rows, err := stmtOut.Query(rowsN)
+	defer rows.Close()
 	if err != nil {
 		panic(err.Error())
 	}
